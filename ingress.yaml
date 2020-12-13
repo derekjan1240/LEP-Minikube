@@ -1,0 +1,86 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-lep
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /authentication
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-authentication-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /assistant
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-assistant-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /content
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-content-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /special-content
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-special-content-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /questionnaire
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-questionnaire-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /visualization
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-visualization-service
+                port: 
+                  number: 80
+    - http:
+        paths:
+          - path: /communcation
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-communcation-service
+                port: 
+                  number: 80
+
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lep-frontend-service
+                port: 
+                  number: 80

@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lep-visualization-service
+spec:
+  type: NodePort
+  selector:
+    app: lep-visualization
+  ports:
+    - protocol: "TCP"
+      # Port accessible inside cluster
+      port: 80
+      # Port to forward to inside the pod
+      targetPort: 8086
+      # Port accessible outside cluster
+      nodePort: 30006
+ 
+ 
+ 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lep-visualization-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lep-visualization
+  template:
+    metadata:
+      labels:
+        app: lep-visualization
+    spec:
+      containers:
+        - name: lep-visualization
+          image: derekjan1240/lep-visualization
+          ports:
+            - containerPort: 8086

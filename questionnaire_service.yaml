@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lep-questionnaire-service
+spec:
+  type: NodePort
+  selector:
+    app: lep-questionnaire
+  ports:
+    - protocol: "TCP"
+      # Port accessible inside cluster
+      port: 80
+      # Port to forward to inside the pod
+      targetPort: 8085
+      # Port accessible outside cluster
+      nodePort: 30005
+ 
+ 
+ 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lep-questionnaire-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lep-questionnaire
+  template:
+    metadata:
+      labels:
+        app: lep-questionnaire
+    spec:
+      containers:
+        - name: lep-questionnaire
+          image: derekjan1240/lep-questionnaire
+          ports:
+            - containerPort: 8085

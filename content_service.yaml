@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lep-content-service
+spec:
+  type: NodePort
+  selector:
+    app: lep-content
+  ports:
+    - protocol: "TCP"
+      # Port accessible inside cluster
+      port: 80
+      # Port to forward to inside the pod
+      targetPort: 8083
+      # Port accessible outside cluster
+      nodePort: 30003
+ 
+ 
+ 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lep-content-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lep-content
+  template:
+    metadata:
+      labels:
+        app: lep-content
+    spec:
+      containers:
+        - name: lep-content
+          image: derekjan1240/lep-content
+          ports:
+            - containerPort: 8083
